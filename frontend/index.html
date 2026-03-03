@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Public Speaking Confidence Analyzer — Upload your speech audio and get instant feedback on confidence, pace, and clarity.">
+    <title>AI Public Speaking Confidence Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Background glow orbs -->
+    <div class="bg-orb bg-orb--1"></div>
+    <div class="bg-orb bg-orb--2"></div>
+
+    <main id="app">
+
+        <!-- ===== UPLOAD CARD ===== -->
+        <section id="upload-section" class="card">
+            <div class="card__badge">AI Powered</div>
+            <h1 class="card__title">Public Speaking<br><span class="gradient-text">Confidence Analyzer</span></h1>
+            <p class="card__subtitle">Upload your speech recording and get instant AI-driven feedback on your delivery.</p>
+
+            <form id="upload-form">
+                <label id="drop-zone" class="drop-zone" for="audio-input">
+                    <div class="drop-zone__icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <p class="drop-zone__text">Drag &amp; drop your audio file here</p>
+                    <p class="drop-zone__hint">or click to browse &middot; .wav / .mp3 &middot; max 25 MB</p>
+                    <input type="file" id="audio-input" accept=".wav,.mp3" hidden>
+                </label>
+
+                <div id="file-info" class="file-info hidden">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13"/>
+                        <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+                    </svg>
+                    <span id="file-name"></span>
+                    <button type="button" id="clear-file" class="file-info__clear" title="Remove file">&times;</button>
+                </div>
+
+                <button type="submit" id="analyze-btn" class="btn btn--primary" disabled>
+                    <span class="btn__label">Analyze Speech</span>
+                    <span class="btn__loader hidden">
+                        <span class="spinner"></span>
+                        Processing…
+                    </span>
+                </button>
+            </form>
+
+            <div id="error-msg" class="error-msg hidden"></div>
+        </section>
+
+        <!-- ===== RESULTS CARD ===== -->
+        <section id="results-section" class="card card--results hidden">
+            <button id="back-btn" class="btn btn--ghost">&larr; Analyze Another</button>
+
+            <h2 class="results__heading">Analysis Results</h2>
+
+            <!-- Confidence Score Ring -->
+            <div class="score-ring-wrap">
+                <svg class="score-ring" viewBox="0 0 140 140">
+                    <circle class="score-ring__bg" cx="70" cy="70" r="60"/>
+                    <circle class="score-ring__fill" id="score-ring-fill" cx="70" cy="70" r="60"/>
+                </svg>
+                <div class="score-ring__value">
+                    <span id="score-number" class="score-ring__number">0</span>
+                    <span class="score-ring__label">Confidence</span>
+                </div>
+            </div>
+
+            <!-- Metric Bars -->
+            <div class="metrics">
+                <div class="metric" id="metric-wpm">
+                    <div class="metric__header">
+                        <span class="metric__name">Words Per Minute</span>
+                        <span class="metric__value" id="val-wpm">0</span>
+                    </div>
+                    <div class="metric__bar"><div class="metric__bar-fill" id="bar-wpm"></div></div>
+                </div>
+                <div class="metric" id="metric-filler">
+                    <div class="metric__header">
+                        <span class="metric__name">Filler Words</span>
+                        <span class="metric__value" id="val-filler">0</span>
+                    </div>
+                    <div class="metric__bar"><div class="metric__bar-fill metric__bar-fill--warn" id="bar-filler"></div></div>
+                </div>
+                <div class="metric" id="metric-pauses">
+                    <div class="metric__header">
+                        <span class="metric__name">Pauses Detected</span>
+                        <span class="metric__value" id="val-pauses">0</span>
+                    </div>
+                    <div class="metric__bar"><div class="metric__bar-fill metric__bar-fill--info" id="bar-pauses"></div></div>
+                </div>
+            </div>
+
+            <!-- Transcript -->
+            <div class="transcript">
+                <h3 class="transcript__title">Transcript</h3>
+                <div class="transcript__body" id="transcript-text"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
